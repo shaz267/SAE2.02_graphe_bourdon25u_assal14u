@@ -46,7 +46,7 @@ public class GrapheListe implements Graphe {
     }*/
 
     //deuxième
-    public void ajouterArc(String depart, String destination, double cout) throws NullPointerException {
+    public void ajouterArc(String depart, String destination, double cout) {
 
         // Vérification si les nœuds existent dans le graphe
         if (!ensNom.contains(depart)) {
@@ -114,6 +114,22 @@ public class GrapheListe implements Graphe {
                 rep += "\n";
             }
         }
+
+        return rep;
+    }
+
+    public String toGraphviz() {
+
+        String rep = "diagraph G {\n";
+
+        for (String s : this.listeNoeuds()) {
+
+            for (Arc a : this.suivants(s)) {
+                rep += s + " ->" + " " + a.getDest() + " [label = " + (int) a.getCout() + "]\n";
+            }
+        }
+
+        rep += "}";
 
         return rep;
     }
