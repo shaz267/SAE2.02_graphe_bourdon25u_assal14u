@@ -1,8 +1,12 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe qui permet de repr´esenter les données associées à un graphe
+ * Classe qui permet de representer les données associées à un graphe
  */
 public class GrapheListe implements Graphe {
 
@@ -22,6 +26,33 @@ public class GrapheListe implements Graphe {
         this.ensNoeuds = new ArrayList<Noeud>();
     }
 
+    public GrapheListe(String fichier){
+        File f = new File(fichier);
+        FileReader fr = null;
+        BufferedReader bf = new BufferedReader(fr);
+
+        // lecture des lignes du fichier (stocke dans une liste)
+        ArrayList<String> liste = new ArrayList<>();
+        String line = null;
+        try {
+            line = bf.readLine();
+            while ( line != null){
+                liste.add(line);
+                line = bf.readLine();
+            }
+            bf.close();
+        } catch (IOException e) {
+            // erreur lors de la lecture du fichier
+            throw new Error("Erreur I/O de lecture du Fichier "+ fichier);
+        }
+
+        // transformation de la liste en tableau de chaines
+        String[] lignes = liste.toArray(new String[0]);
+
+        // pour ensNom
+
+    }
+
     /**
      * Méthode ajouterArc permettant d'ajouter un arc dans ensNoeuds
      *
@@ -29,23 +60,6 @@ public class GrapheListe implements Graphe {
      * @param destination, nom du noeud de destination
      * @param cout,        cout de l'arc
      */
-    /*public void ajouterArc(String depart, String destination, double cout){  // premiere version
-
-        Noeud noeudDepart = new Noeud(depart);
-        this.ensNoeuds.add(noeudDepart);
-        this.ensNom.add(depart);
-
-        Noeud noeudDest = new Noeud(destination);
-        this.ensNoeuds.add(noeudDest);
-        this.ensNom.add(destination);
-
-        if (ensNoeuds.contains(noeudDepart) &&  ensNoeuds.contains(noeudDest)){
-
-            noeudDepart.ajouterArc(destination, cout);
-        }
-    }*/
-
-    //deuxième
     public void ajouterArc(String depart, String destination, double cout) {
 
         // Vérification si les nœuds existent dans le graphe
@@ -77,10 +91,14 @@ public class GrapheListe implements Graphe {
      * @return retourne la liste des noeuds stockes pour le graphe en question
      */
     public List<String> listeNoeuds() {
-        return ensNom;
+        return this.ensNom;
     }
 
-
+    /**
+     * Methode suivants permettant de recuperer la liste des Arcs partant d'un noeud
+     * @param n, nom du noeud a etudier
+     * @return retourne la liste des Arcs partant du noeud n
+     */
     public List<Arc> suivants(String n) {
 
         List<Arc> lA = null;
@@ -96,6 +114,10 @@ public class GrapheListe implements Graphe {
         return lA;
     }
 
+    /**
+     * Methode toString permettant d'afficher le contenu d'un graphe
+     * @return retourne une chaine de caracteres contenant les caracteristiques du graphe
+     */
     public String toString() {
 
         String rep = "";
@@ -118,9 +140,13 @@ public class GrapheListe implements Graphe {
         return rep;
     }
 
+    /**
+     * Methode toGraphViz permettant de representer le graphe en respectant le format GraphViz
+     * @return retourne une chaine de caractere representant le graphe sous le format GraphViz
+     */
     public String toGraphviz() {
 
-        String rep = "diagraph G {\n";
+        String rep = "digraph G {\n";
 
         for (String s : this.listeNoeuds()) {
 
@@ -134,4 +160,29 @@ public class GrapheListe implements Graphe {
         return rep;
     }
 
+
+    /**
+     * Méthode qui permet de tester cette classe
+     * @return l'attribut ensNoeuds
+     */
+    public List<Noeud> getEnsNoeuds(){
+
+        return this.ensNoeuds;
+    }
+
+    /**
+     * Méthode qui permet de rajouter un nom
+     */
+    public void setEnsNom(String nom){
+
+        this.ensNom.add(nom);
+    }
+
+    /**
+     * Méthode qui permet de rajouter un noeud
+     */
+    public void setEnsNoeuds(Noeud noeud){
+
+        this.ensNoeuds.add(noeud);
+    }
 }
