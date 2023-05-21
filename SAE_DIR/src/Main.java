@@ -22,6 +22,11 @@ public class Main {
         graphe.ajouterArc("D", "C", 10);
         graphe.ajouterArc("E", "D", 43);
 
-        System.out.println(graphe.toGraphviz());
+        //System.out.println(graphe.toGraphviz());
+
+        GrapheListe graphe2 = new GrapheListe("C:\\Users\\bourd\\Desktop\\cours\\saé\\SAE2.02_graphe\\SAE2.02_graphe_bourdon25u_assal14u\\SAE_DIR\\Graphes\\Graphe1.txt");
+        //System.out.println(graphe2.toGraphviz());
+
+        graphe2.genererListeArcs("C:\\Users\\bourd\\Desktop\\cours\\saé\\SAE2.02_graphe\\SAE2.02_graphe_bourdon25u_assal14u\\SAE_DIR\\Graphes\\Graphe1.txt");
     }
 }

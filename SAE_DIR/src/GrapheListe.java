@@ -1,9 +1,10 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.valueOf;
 
 /**
  * Classe qui permet de representer les données associées à un graphe
@@ -26,31 +27,28 @@ public class GrapheListe implements Graphe {
         this.ensNoeuds = new ArrayList<Noeud>();
     }
 
-    public GrapheListe(String fichier){
-        File f = new File(fichier);
-        FileReader fr = null;
-        BufferedReader bf = new BufferedReader(fr);
+    public GrapheListe(String fichier) {
+        this.ensNom = new ArrayList<>();
+        this.ensNoeuds = new ArrayList<>();
 
-        // lecture des lignes du fichier (stocke dans une liste)
-        ArrayList<String> liste = new ArrayList<>();
-        String line = null;
-        try {
-            line = bf.readLine();
-            while ( line != null){
-                liste.add(line);
-                line = bf.readLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(fichier))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split("\t");
+
+                if (tokens.length != 3) {
+                    throw new IllegalArgumentException("Invalid file format");
+                }
+
+                String depart = tokens[0];
+                String destination = tokens[1];
+                double cout = Double.parseDouble(tokens[2]);
+
+                ajouterArc(depart, destination, cout);
             }
-            bf.close();
         } catch (IOException e) {
-            // erreur lors de la lecture du fichier
-            throw new Error("Erreur I/O de lecture du Fichier "+ fichier);
+            throw new Error("Error reading file: " + fichier);
         }
-
-        // transformation de la liste en tableau de chaines
-        String[] lignes = liste.toArray(new String[0]);
-
-        // pour ensNom
-
     }
 
     /**
@@ -184,5 +182,40 @@ public class GrapheListe implements Graphe {
     public void setEnsNoeuds(Noeud noeud){
 
         this.ensNoeuds.add(noeud);
+    }
+
+    public void genererListeArcs(String fichier) {
+        List<String> lignes;
+        try {
+            lignes = Files.readAllLines(Path.of(fichier));
+        } catch (IOException e) {
+            throw new Error("Error reading file: " + fichier);
+        }
+
+        List<String> arcs = new ArrayList<>();
+
+        for (int i = 1; i < lignes.size(); i++) {
+            String ligne = lignes.get(i);
+            String[] tokens = ligne.split("\\s+");
+            String depart = Character.toString((char) ('A' + i - 1));
+            for (int j = 1; j < tokens.length; j++) {
+                String poidsStr = tokens[j];
+                if (!poidsStr.equals("0.")) {
+                    String destination = Character.toString((char) ('A' + j - 1));
+                    String arc = depart + " " + destination + " " + poidsStr;
+                    arcs.add(arc);
+                }
+            }
+        }
+
+        String sortie = fichier.replace(".txt", "_arcs.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sortie))) {
+            for (String arc : arcs) {
+                writer.write(arc);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new Error("Error writing to file: " + sortie);
+        }
     }
 }
