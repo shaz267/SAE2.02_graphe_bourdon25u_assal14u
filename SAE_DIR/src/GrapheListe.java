@@ -1,3 +1,4 @@
+import javax.print.attribute.standard.Destination;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -185,24 +186,49 @@ public class GrapheListe implements Graphe {
     }
 
     public void genererListeArcs(String fichier) {
-        List<String> lignes;
+        List<String> lignes = new ArrayList<String>();
         try {
-            lignes = Files.readAllLines(Path.of(fichier));
+            //lignes = Files.readAllLines(Path.of(fichier));
+
+            BufferedReader bf = new BufferedReader(new FileReader(fichier));
+
+            String ligne = bf.readLine();
+
+            while ( ligne != null ) {
+
+                lignes.add(ligne);
+                ligne = bf.readLine() ;
+            }
+
+            bf.close() ;
+
         } catch (IOException e) {
             throw new Error("Error reading file: " + fichier);
         }
 
         List<String> arcs = new ArrayList<>();
 
-        for (int i = 1; i < lignes.size(); i++) {
+        List<String> Destination = new ArrayList<String>();
+
+        for (int i = 0; i < lignes.size(); i++){
             String ligne = lignes.get(i);
-            String[] tokens = ligne.split("\\s+");
-            String depart = Character.toString((char) ('A' + i - 1));
-            for (int j = 1; j < tokens.length; j++) {
-                String poidsStr = tokens[j];
-                if (!poidsStr.equals("0.")) {
-                    String destination = Character.toString((char) ('A' + j - 1));
-                    String arc = depart + " " + destination + " " + poidsStr;
+            String[] tokens = ligne.split("\t");
+
+            String Depart = "";
+
+            if (i != 0){
+
+                Depart = tokens[0];
+            }
+            for (int j = 0; j < tokens.length; j++){
+
+                if (i == 0){
+
+                    Destination.add(tokens[j]);
+                }
+                else if (!tokens[j].equals("0.") && j != 0){
+
+                    String arc = Depart + " " + Destination.get(j) + " " + tokens[j];
                     arcs.add(arc);
                 }
             }
