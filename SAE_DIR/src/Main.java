@@ -12,7 +12,7 @@ public class Main {
         Noeud nD = new Noeud("D");
         Noeud nE = new Noeud("E");*/
 
-        GrapheListe graphe = new GrapheListe();
+        /*GrapheListe graphe = new GrapheListe();
 
         graphe.ajouterArc("A", "B", 12);
         graphe.ajouterArc("A", "D", 87);
@@ -20,7 +20,9 @@ public class Main {
         graphe.ajouterArc("C", "A", 19);
         graphe.ajouterArc("D", "B", 23);
         graphe.ajouterArc("D", "C", 10);
-        graphe.ajouterArc("E", "D", 43);
+        graphe.ajouterArc("E", "D", 43);*/
+
+        GrapheListe graphe = new GrapheListe("Graphes/Graphe1.txt");
 
         System.out.println(graphe.toGraphviz());
     }
