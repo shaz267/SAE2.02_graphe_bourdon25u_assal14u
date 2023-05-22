@@ -185,6 +185,7 @@ public class GrapheListe implements Graphe {
         this.ensNoeuds.add(noeud);
     }
 
+
     public void genererListeArcs(String fichier) {
         List<String> lignes = new ArrayList<String>();
         try {
@@ -203,7 +204,7 @@ public class GrapheListe implements Graphe {
             bf.close() ;
 
         } catch (IOException e) {
-            throw new Error("Error reading file: " + fichier);
+            throw new Error("Erreur de lecture du fichier : " + fichier);
         }
 
         List<String> arcs = new ArrayList<>();
@@ -241,7 +242,7 @@ public class GrapheListe implements Graphe {
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new Error("Error writing to file: " + sortie);
+            throw new Error("Erreur d'écriture du fichier :" + sortie);
         }
     }
 }
