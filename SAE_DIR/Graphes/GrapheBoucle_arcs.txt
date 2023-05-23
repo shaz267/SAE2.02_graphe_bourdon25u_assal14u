@@ -1,0 +1,12 @@
+A B D
+A 20 3
+D B C
+D 20 4
+C B B
+C 20 2
+B B G
+B 20 10
+G B F
+G 20 5
+F B E
+F 20 3

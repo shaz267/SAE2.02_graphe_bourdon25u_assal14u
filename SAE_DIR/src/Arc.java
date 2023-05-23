@@ -28,10 +28,18 @@ public class Arc {
             this.cout = 0;
     }
 
+    /**
+     * Méthode getDest permettant de recuperer le nom du noeud destination de l'arc
+     * @return
+     */
     public String getDest() {
         return dest;
     }
 
+    /**
+     * Méthode getCout permettant de recuperer le cout de l'arc
+     * @return
+     */
     public double getCout() {
         return cout;
     }

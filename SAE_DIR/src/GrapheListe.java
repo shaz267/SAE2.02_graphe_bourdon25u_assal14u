@@ -28,6 +28,10 @@ public class GrapheListe implements Graphe {
         this.ensNoeuds = new ArrayList<Noeud>();
     }
 
+    /**
+     * Constructeur prenant un nom de fichier en paramètres et permettant de créer un graphe à partir d’un fichier
+     * @param fichier
+     */
     public GrapheListe(String fichier) {
         this.ensNom = new ArrayList<>();
         this.ensNoeuds = new ArrayList<>();
@@ -38,7 +42,7 @@ public class GrapheListe implements Graphe {
                 String[] tokens = line.split("\t");
 
                 if (tokens.length != 3) {
-                    throw new IllegalArgumentException("Invalid file format");
+                    throw new IllegalArgumentException("Format de fichier Invalide");
                 }
 
                 String depart = tokens[0];
@@ -186,7 +190,11 @@ public class GrapheListe implements Graphe {
     }
 
 
-    public void genererListeArcs(String fichier) {
+    /**
+     * Méthode qui permet de générer la liste des arcs à partir d'un fichier texte
+     * @param fichier
+     */
+    public static void genererListeArcs(String fichier) {
         List<String> lignes = new ArrayList<String>();
         try {
             //lignes = Files.readAllLines(Path.of(fichier));
