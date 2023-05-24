@@ -19,6 +19,8 @@ public class BellmanFord {
             }
         }
 
+        System.out.println(valeur);
+
         //boucle qui va permettre de trouver les valeurs des noeuds
         boolean pointFixe = false;
         while (!pointFixe) {

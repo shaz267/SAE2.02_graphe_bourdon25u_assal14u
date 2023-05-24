@@ -40,6 +40,8 @@ public class Dijkstra {
             Q.add(new Noeud(v));
         }
 
+        System.out.println(valeur);
+
         valeur.setValeur(depart, 0.0);
 
         while (!Q.isEmpty()){
