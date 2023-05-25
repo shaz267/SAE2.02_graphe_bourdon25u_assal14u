@@ -57,6 +57,32 @@ public class GrapheListe implements Graphe {
     }
 
     /**
+     * Constructeur qui génére des graphes automatiquement d’une taille donnée (par exemple 1000 nœuds) en choisissant un départ et une arrivée. Les noms des nœuds seront des entiers.
+     */
+    public GrapheListe(int tailleGraphe ,String depart, String arrivee) {
+        this.ensNom = new ArrayList<>();
+        this.ensNoeuds = new ArrayList<>();
+
+        int i = 0;
+
+        ajouterArc(depart, String.valueOf(i) , (int)(Math.random() * 50));
+
+        for (i = 0; i < tailleGraphe; i++) {
+
+            ajouterArc(String.valueOf(i), String.valueOf(i+1), (int)(Math.random() * 50));
+        }
+
+        ajouterArc(String.valueOf(tailleGraphe), arrivee, (int)(Math.random() * 50));
+
+        //Ajout supplémentaires de noeuds pour avoir un graphe plus complexe
+        for (int j = (int)(Math.random() * tailleGraphe - 1); j < tailleGraphe; j++) {
+
+            ajouterArc(String.valueOf(j), String.valueOf(j+2), (int)(Math.random() * 50));
+        }
+
+    }
+
+    /**
      * Méthode ajouterArc permettant d'ajouter un arc dans ensNoeuds
      *
      * @param depart,      nom du noeud de depart
@@ -191,14 +217,12 @@ public class GrapheListe implements Graphe {
 
 
     /**
-     * Méthode qui permet de générer la liste des arcs à partir d'un fichier texte
+     * Méthode qui permet de générer la liste des arcs à partir d'un fichier texte en mode matrice
      * @param fichier
      */
     public static void genererListeArcs(String fichier) {
         List<String> lignes = new ArrayList<String>();
         try {
-            //lignes = Files.readAllLines(Path.of(fichier));
-
             BufferedReader bf = new BufferedReader(new FileReader(fichier));
 
             String ligne = bf.readLine();

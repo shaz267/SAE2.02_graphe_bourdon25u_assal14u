@@ -1,11 +1,12 @@
 @startuml
 digraph G {
-    A -> B [label = 12]
-    A -> D [label = 87]
-    B -> E [label = 11]
-    D -> B [label = 23]
-    D -> C [label = 10]
-    E -> D [label = 43]
-    C -> A [label = 19]
+1 -> 0 [label = 15]
+1 -> 2 [label = 14]
+1 -> 3 [label = 21]
+0 -> 1 [label = 8]
+0 -> 2 [label = 47]
+2 -> 3 [label = 24]
+2 -> 4 [label = 26]
+3 -> 3 [label = 8]
 }
 @enduml

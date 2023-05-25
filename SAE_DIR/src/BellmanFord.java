@@ -19,11 +19,15 @@ public class BellmanFord {
             }
         }
 
+        System.out.println("Etat initial : ");
         System.out.println(valeur);
+
+        int nbIterations = 0;
 
         //boucle qui va permettre de trouver les valeurs des noeuds
         boolean pointFixe = false;
         while (!pointFixe) {
+            nbIterations++;
             pointFixe = true;
             for (String noeud : g.listeNoeuds()) {
                 for (Arc voisin : g.suivants(noeud)) {
@@ -39,6 +43,7 @@ public class BellmanFord {
                 }
             }
 
+            System.out.println("Itération : " + nbIterations);
             System.out.println(valeur);
         }
 

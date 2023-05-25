@@ -40,11 +40,15 @@ public class Dijkstra {
             Q.add(new Noeud(v));
         }
 
+        System.out.println("Etat initial : ");
         System.out.println(valeur);
 
+        int nbIterations = 0;
         valeur.setValeur(depart, 0.0);
 
-        while (!Q.isEmpty()){
+        while (Q.size() > 0){
+
+            nbIterations++;
 
             Noeud u = Q.get(0);
             for (Noeud n : Q) {
@@ -65,6 +69,7 @@ public class Dijkstra {
                 }
             }
 
+            System.out.println("Itération : " + nbIterations);
             System.out.println(valeur);
         }
 
