@@ -97,16 +97,16 @@ public class Valeur {
      */
     public List<String> calculerChemin(String destination) {
 
-        List<String> cheminEnvers = new ArrayList<>();
-        while (destination != null) {
-            cheminEnvers.add(destination);
-            destination = this.getParent(destination);
+        List<String> cheminEnvers = new ArrayList<>(); // on va stocker le chemin envers
+        while (destination != null) { // tant qu'on a pas atteint le noeud de depart
+            cheminEnvers.add(destination); // on ajoute le noeud courant
+            destination = this.getParent(destination); // on passe au noeud parent
         }
 
-        List<String> chemin = new ArrayList<>();
-        for (int i = cheminEnvers.size() - 1; i >= 0; i--) {
+        List<String> chemin = new ArrayList<>(); // on va stocker le chemin dans le bon sens
+        for (int i = cheminEnvers.size() - 1; i >= 0; i--) { // on parcourt le chemin envers dans le sens inverse
 
-            chemin.add(cheminEnvers.get(i));
+            chemin.add(cheminEnvers.get(i)); // on ajoute le noeud courant
         }
 
         return chemin;

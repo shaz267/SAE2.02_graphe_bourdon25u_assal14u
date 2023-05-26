@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.IOException;
+
 /**
  * main qui crée le graphe présenté dans la figure 1
  */
@@ -25,6 +27,10 @@ public class Main {
         return nomsFichiersTXT;
     }
 
+    /**
+     * Méthode afficherTemps qui permet d'afficher les temps d'exécution des algorithmes de BellmanFord et Dijkstra
+     * @param nomsFichiers
+     */
     public static void afficherTemps(String[] nomsFichiers){
         // On sépare les résultats en 3 colonnes pour faciliter le remplissage du fichier csv: 1) Noms des graphes
         // 2) temps d'exécution pour BellmanFord 3) temps d'exécution pour Dijkstra
@@ -73,6 +79,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
+        //Question 7 :
         //Ajout des noeuds
         /*Noeud nA = new Noeud("A");
         Noeud nB = new Noeud("B");
@@ -82,6 +89,7 @@ public class Main {
 
         /*GrapheListe graphe = new GrapheListe();
 
+        //Tests de l'ajout des noeuds et des arcs
         graphe.ajouterArc("A", "B", 12);
         graphe.ajouterArc("A", "D", 87);
         graphe.ajouterArc("B", "E", 11);
@@ -92,18 +100,16 @@ public class Main {
 
         //GrapheListe graphe = new GrapheListe(10, "1", "50");
 
+        //Test de la méthode toGraphviz()
         //System.out.println(graphe.toGraphviz());
 
-        //GrapheListe graphe2 = new GrapheListe("C:\\Users\\bourd\\Desktop\\cours\\saé\\SAE2.02_graphe\\SAE2.02_graphe_bourdon25u_assal14u\\SAE_DIR\\Graphes\\Graphe1.txt");
-        //System.out.println(graphe2.toGraphviz());
-
+        //Test de la méthode genererListeArcs()
         //graphe2.genererListeArcs("C:\\Users\\bourd\\Desktop\\cours\\saé\\SAE2.02_graphe\\SAE2.02_graphe_bourdon25u_assal14u\\SAE_DIR\\Graphes\\Graphe1.txt");
 
-        //GrapheListe graphe = new GrapheListe();
-        //graphe.genererListeArcs("C:\\Users\\hugoa\\OneDrive - Universite de Lorraine\\Documents\\SAE2.02_graphe_bourdon25u_assal14u\\SAE_DIR\\Graphes\\testMatrice.txt");
-
+        //Variable qui est utilisée pour avoir un noeud de départ
         String depart = "1";
 
+        //Question 22 :
         /*System.out.println("Algorithme de Dijkstra : \n");
         Valeur v = Dijkstra.resoudre(graphe, depart);
 
@@ -114,33 +120,57 @@ public class Main {
 
         System.out.println("Etat final : \n" + v2);*/
 
-        /*GrapheListe graphe2 = new GrapheListe(3, "1" , "3");
-        System.out.println(graphe2.toGraphviz());*/
+        //GrapheListe graphe2 = new GrapheListe(100, "1" , "100");
+        //System.out.println(graphe2.toGraphviz());
 
-        //TODO: vérifier les valeurs
+        //Question 24 :
         //Main.afficherTemps(Main.getNomsFichiers("Graphes"));
 
-        for (int i = 1; i < 50; i++){
+
+        //Question 25 :
+        /*int compteur = 0;
+        long moyB = 0;
+        long moyD = 0;
+        for (int i = 1; i < 500; i +=10){
+            compteur++;
 
             GrapheListe graphe = new GrapheListe(i, depart , String.valueOf(i));
-            long departT = System.nanoTime();
+            long departTB = System.nanoTime();
             BellmanFord.resoudre(graphe, "1");
-            long arrive = System.nanoTime();
-            long temps = arrive - departT;
+            long arriveB = System.nanoTime();
+            long tempsB = arriveB - departTB;
 
-            System.out.println("Graphe de taille : " + i + " résultat pour algo BellmanFord : " + temps);
-        }
+            moyB += tempsB;
 
-        System.out.println("");
-        for (int i = 1; i < 50; i++){
+            System.out.println("Graphe de taille : " + i + " résultat pour algo BellmanFord : " + tempsB);
 
-            GrapheListe graphe = new GrapheListe(i, depart , String.valueOf(i));
-            long departT = System.nanoTime();
+            long departTD = System.nanoTime();
             Dijkstra.resoudre(graphe, "1");
-            long arrive = System.nanoTime();
-            long temps = arrive - departT;
+            long arriveD = System.nanoTime();
+            long tempsD = arriveD - departTD;
 
-            System.out.println("Graphe de taille : " + i + " résultat pour algo Dijkstra : " + temps);
+            moyD += tempsD;
+
+            System.out.println("Graphe de taille : " + i + " résultat pour algo Dijkstra : " + tempsD);
+
+            System.out.println("ratio de performance temps de BellmanFord divisé par le temps de Dijkstra : " + (double) tempsB / tempsD);
+
+            System.out.println("");
         }
+        moyB /= compteur;
+        moyD /= compteur;
+        System.out.println("Moyenne pour BellmanFord : " + moyB);
+        System.out.println("Moyenne pour Dijkstra : " + moyD);*/
+
+
+        //Partie Labyrinthe :
+        try {
+
+            GrapheListe graphe = Labyrinthe.genererGraphe("labySimple/laby0.txt");
+            System.out.println(BellmanFord.resoudre(graphe, "(1,1)").calculerChemin("(5,3)"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

@@ -70,52 +70,57 @@ public class Labyrinthe {
      * @return labyrinthe cree
      * @throws IOException probleme a la lecture / ouverture
      */
-    public Labyrinthe(String nom) throws IOException {
-        // ouvrir fichier
-        FileReader fichier = new FileReader(nom);
-        BufferedReader bfRead = new BufferedReader(fichier);
+    public Labyrinthe(String nom){
+        try {
+            // ouvrir fichier
+            FileReader fichier = new FileReader(nom);
+            BufferedReader bfRead = new BufferedReader(fichier);
 
-        int nbLignes, nbColonnes;
-        // lecture nblignes
-        nbLignes = Integer.parseInt(bfRead.readLine());
-        // lecture nbcolonnes
-        nbColonnes = Integer.parseInt(bfRead.readLine());
+            int nbLignes, nbColonnes;
+            // lecture nblignes
+            nbLignes = Integer.parseInt(bfRead.readLine());
+            // lecture nbcolonnes
+            nbColonnes = Integer.parseInt(bfRead.readLine());
 
-        // creation labyrinthe vide
-        this.murs = new boolean[nbColonnes][nbLignes];
+            // creation labyrinthe vide
+            this.murs = new boolean[nbColonnes][nbLignes];
 
-        // lecture des cases
-        String ligne = bfRead.readLine();
+            // lecture des cases
+            String ligne = bfRead.readLine();
 
-        // stocke les indices courants
-        int numeroLigne = 0;
+            // stocke les indices courants
+            int numeroLigne = 0;
 
-        // parcours le fichier
-        while (ligne != null) {
+            // parcours le fichier
+            while (ligne != null) {
 
-            // parcours de la ligne
-            for (int colonne = 0; colonne < ligne.length(); colonne++) {
-                char c = ligne.charAt(colonne);
-                switch (c) {
-                    case MUR:
-                        this.murs[colonne][numeroLigne] = true;
-                        break;
-                    case VIDE:
-                        this.murs[colonne][numeroLigne] = false;
-                        break;
+                // parcours de la ligne
+                for (int colonne = 0; colonne < ligne.length(); colonne++) {
+                    char c = ligne.charAt(colonne);
+                    switch (c) {
+                        case MUR:
+                            this.murs[colonne][numeroLigne] = true;
+                            break;
+                        case VIDE:
+                            this.murs[colonne][numeroLigne] = false;
+                            break;
 
-                    default:
-                        throw new Error("caractere inconnu " + c);
+                        default:
+                            throw new Error("caractere inconnu " + c);
+                    }
                 }
+
+                // lecture
+                ligne = bfRead.readLine();
+                numeroLigne++;
             }
 
-            // lecture
-            ligne = bfRead.readLine();
-            numeroLigne++;
+            // ferme fichier
+            bfRead.close();
         }
-
-        // ferme fichier
-        bfRead.close();
+        catch (IOException e){
+            System.out.println("[ERREUR] " + e.getMessage());
+        }
     }
 
 
@@ -183,27 +188,49 @@ public class Labyrinthe {
         return this.murs[x][y];
     }
 
-    public GrapheListe genererGraphe(String labyrinthe) throws IOException{
+    public static GrapheListe genererGraphe(String labyrinthe) throws IOException{
         Labyrinthe laby = new Labyrinthe(labyrinthe);
 
         GrapheListe graphe = new GrapheListe();
 
-        // On remplit ensNom avec les noms des Noeuds du graphe
-        for(int i = 0; i < laby.murs.length; i++){
-            for(int j = 0; j < laby.murs[i].length; j++){
-                if(!laby.getMur(i, j)){
-                    // Ajout des noms des noeuds dans ensNom
-                    String nom = "(";
-                    nom += i + "," + j + ")";
-                    graphe.setEnsNom(nom);
+        // On remplit ensNoeuds avec l'aide de la méthode ajouterArc
+        for(int i = 1; i < laby.murs.length - 1; i++){
+            for(int j = 1; j < laby.murs[i].length - 1; j++) {
+
+                // On crée le nom du Noeud
+                String nom = "(" + i + "," + j + ")";
+
+                // On vérifie la case du dessus
+                if (!laby.getMur(i, j-1)) {
+                    String nom_haut = "(" + i + "," + (j-1) + ")";
+                    // On ajoute chaque arc en 'aller-retour' parce que certains noeuds ne seraient visités qu'une fois
+                    graphe.ajouterArc(nom, nom_haut, 1);
+                    graphe.ajouterArc(nom_haut, nom, 1);
                 }
+
+                // On vérifie la case du dessous
+                if (!laby.getMur(i, j+1)) {
+                    String nom_bas = "(" + i + "," + (j+1) + ")";
+                    graphe.ajouterArc(nom, nom_bas, 1);
+                    graphe.ajouterArc(nom_bas, nom, 1);
+                }
+
+                // On vérifie la case de gauche
+                if (!laby.getMur(i-1, j)) {
+                    String nom_gauche = "(" + (i-1) + "," + (j) + ")";
+                    graphe.ajouterArc(nom, nom_gauche, 1);
+                    graphe.ajouterArc(nom_gauche, nom, 1);
+                }
+
+                // On vérifie la case de droite
+                if (!laby.getMur(i+1, j)) {
+                    String nom_droite = "(" + (i+1) + "," + j + ")";
+                    graphe.ajouterArc(nom, nom_droite, 1);
+                    graphe.ajouterArc(nom_droite, nom, 1);
+                }
+
             }
         }
-
-        // On remplit ensNoeuds avec l'aide de la méthode ajouterArc
-        /*for(int i = 0; i < graphe.listeNoeuds().size(); i++){
-            for(int j = 0; j < )
-        }*/
         return graphe;
     }
 }

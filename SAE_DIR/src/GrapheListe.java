@@ -63,23 +63,40 @@ public class GrapheListe implements Graphe {
         this.ensNom = new ArrayList<>();
         this.ensNoeuds = new ArrayList<>();
 
-        int i = 0;
+        //La boucle ci-dessous permet de créer un graphe avec de nombreux arcs
+        //for (int k = 0; k < tailleGraphe; k++) {
+            int i = 0;
 
-        ajouterArc(depart, String.valueOf(i) , (int)(Math.random() * 50));
+            ajouterArc(depart, String.valueOf(i), (int) (Math.random() * 50));
 
-        for (i = 0; i < tailleGraphe; i++) {
+            for (i = 0; i < tailleGraphe; i++) {
 
-            ajouterArc(String.valueOf(i), String.valueOf(i+1), (int)(Math.random() * 50));
-        }
+                ajouterArc(String.valueOf(i), String.valueOf(i + 1), (int) (Math.random() * 50));
+            }
 
-        ajouterArc(String.valueOf(tailleGraphe), arrivee, (int)(Math.random() * 50));
+            ajouterArc(String.valueOf(tailleGraphe), arrivee, (int) (Math.random() * 50));
 
-        //Ajout supplémentaires de noeuds pour avoir un graphe plus complexe
-        for (int j = (int)(Math.random() * tailleGraphe - 1); j < tailleGraphe; j++) {
+            //Ajout supplémentaires de noeuds pour avoir un graphe plus complexe
+            for (int j = 0; j < tailleGraphe; j++) {
 
-            ajouterArc(String.valueOf(j), String.valueOf(j+2), (int)(Math.random() * 50));
-        }
+                ajouterArc(String.valueOf(j), String.valueOf(j + 2), (int) (Math.random() * 50));
+            }
 
+            for (int j = 0; j < tailleGraphe; j++) {
+
+                ajouterArc(String.valueOf(j), String.valueOf((int) (Math.random() * (tailleGraphe / 10))), (int) (Math.random() * 50));
+            }
+
+            for (int j = (int) (Math.random() * tailleGraphe - 1); j < tailleGraphe; j++) {
+
+                ajouterArc(String.valueOf(j), String.valueOf(j + 3), (int) (Math.random() * 50));
+            }
+
+            for (int j = tailleGraphe; j > 0; j--) {
+
+                ajouterArc(String.valueOf(j), String.valueOf(j - 1), (int) (Math.random() * 50));
+            }
+        //}
     }
 
     /**
@@ -130,7 +147,7 @@ public class GrapheListe implements Graphe {
      */
     public List<Arc> suivants(String n) {
 
-        List<Arc> lA = null;
+        List<Arc> lA = new ArrayList<Arc>();
 
         for (Noeud noeud : ensNoeuds) {
 
@@ -221,57 +238,58 @@ public class GrapheListe implements Graphe {
      * @param fichier
      */
     public static void genererListeArcs(String fichier) {
+
         List<String> lignes = new ArrayList<String>();
         try {
-            BufferedReader bf = new BufferedReader(new FileReader(fichier));
+            BufferedReader bf = new BufferedReader(new FileReader(fichier)); // ouverture du fichier
 
-            String ligne = bf.readLine();
+            String ligne = bf.readLine(); // lecture de la première ligne
 
-            while ( ligne != null ) {
+            while ( ligne != null ) { // tant que la ligne n'est pas vide
 
                 lignes.add(ligne);
                 ligne = bf.readLine() ;
             }
 
-            bf.close() ;
+            bf.close(); // fermeture du fichier
 
         } catch (IOException e) {
-            throw new Error("Erreur de lecture du fichier : " + fichier);
+            throw new Error("Erreur de lecture du fichier : " + fichier); // affichage d'une erreur si le fichier n'est pas trouvé
         }
 
-        List<String> arcs = new ArrayList<>();
+        List<String> arcs = new ArrayList<>();  // liste des arcs
 
-        List<String> Destination = new ArrayList<String>();
+        List<String> Destination = new ArrayList<String>(); // liste des destinations
 
-        for (int i = 0; i < lignes.size(); i++){
-            String ligne = lignes.get(i);
-            String[] tokens = ligne.split("\t");
+        for (int i = 0; i < lignes.size(); i++){ // parcours des lignes du fichier
+            String ligne = lignes.get(i); // récupération de la ligne
+            String[] tokens = ligne.split("\t"); // séparation des éléments de la ligne
 
-            String Depart = "";
+            String Depart = ""; // noeud de départ
 
             if (i != 0){
 
-                Depart = tokens[0];
+                Depart = tokens[0]; // récupération du noeud de départ
             }
-            for (int j = 0; j < tokens.length; j++){
+            for (int j = 0; j < tokens.length; j++){ // parcours des éléments de la ligne
 
                 if (i == 0){
 
-                    Destination.add(tokens[j]);
+                    Destination.add(tokens[j]); // ajout des destinations dans la liste
                 }
                 else if (!tokens[j].equals("0.") && j != 0){
 
-                    String arc = Depart + " " + Destination.get(j) + " " + tokens[j];
-                    arcs.add(arc);
+                    String arc = Depart + " " + Destination.get(j) + " " + tokens[j]; // création de l'arc
+                    arcs.add(arc); // ajout de l'arc dans la liste
                 }
             }
         }
 
-        String sortie = fichier.replace(".txt", "_arcs.txt");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sortie))) {
-            for (String arc : arcs) {
-                writer.write(arc);
-                writer.newLine();
+        String sortie = fichier.replace(".txt", "_arcs.txt"); // création du fichier de sortie
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sortie))) { // ouverture du fichier
+            for (String arc : arcs) { // parcours des arcs
+                writer.write(arc); // écriture de l'arc dans le fichier
+                writer.newLine(); // passage à la ligne suivante
             }
         } catch (IOException e) {
             throw new Error("Erreur d'écriture du fichier :" + sortie);
