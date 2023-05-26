@@ -90,7 +90,7 @@ public class Main {
         graphe.ajouterArc("D", "C", 10);
         graphe.ajouterArc("E", "D", 43);*/
 
-        GrapheListe graphe = new GrapheListe(10, "1", "50");
+        //GrapheListe graphe = new GrapheListe(10, "1", "50");
 
         //System.out.println(graphe.toGraphviz());
 
@@ -114,10 +114,33 @@ public class Main {
 
         System.out.println("Etat final : \n" + v2);*/
 
-        GrapheListe graphe2 = new GrapheListe(3, "1" , "3");
-        System.out.println(graphe2.toGraphviz());
+        /*GrapheListe graphe2 = new GrapheListe(3, "1" , "3");
+        System.out.println(graphe2.toGraphviz());*/
 
         //TODO: vérifier les valeurs
         //Main.afficherTemps(Main.getNomsFichiers("Graphes"));
+
+        for (int i = 1; i < 50; i++){
+
+            GrapheListe graphe = new GrapheListe(i, depart , String.valueOf(i));
+            long departT = System.nanoTime();
+            BellmanFord.resoudre(graphe, "1");
+            long arrive = System.nanoTime();
+            long temps = arrive - departT;
+
+            System.out.println("Graphe de taille : " + i + " résultat pour algo BellmanFord : " + temps);
+        }
+
+        System.out.println("");
+        for (int i = 1; i < 50; i++){
+
+            GrapheListe graphe = new GrapheListe(i, depart , String.valueOf(i));
+            long departT = System.nanoTime();
+            Dijkstra.resoudre(graphe, "1");
+            long arrive = System.nanoTime();
+            long temps = arrive - departT;
+
+            System.out.println("Graphe de taille : " + i + " résultat pour algo Dijkstra : " + temps);
+        }
     }
 }

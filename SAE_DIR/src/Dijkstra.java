@@ -40,8 +40,8 @@ public class Dijkstra {
             Q.add(new Noeud(v));
         }
 
-        System.out.println("Etat initial : ");
-        System.out.println(valeur);
+        //System.out.println("Etat initial : ");
+        //System.out.println(valeur);
 
         int nbIterations = 0;
         valeur.setValeur(depart, 0.0);
@@ -69,8 +69,8 @@ public class Dijkstra {
                 }
             }
 
-            System.out.println("Itération : " + nbIterations);
-            System.out.println(valeur);
+            //System.out.println("Itération : " + nbIterations);
+            //System.out.println(valeur);
         }
 
         return valeur;

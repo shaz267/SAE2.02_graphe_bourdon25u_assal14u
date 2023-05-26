@@ -19,8 +19,8 @@ public class BellmanFord {
             }
         }
 
-        System.out.println("Etat initial : ");
-        System.out.println(valeur);
+        //System.out.println("Etat initial : ");
+        //System.out.println(valeur);
 
         int nbIterations = 0;
 
@@ -43,8 +43,8 @@ public class BellmanFord {
                 }
             }
 
-            System.out.println("Itération : " + nbIterations);
-            System.out.println(valeur);
+            //System.out.println("Itération : " + nbIterations);
+            //System.out.println(valeur);
         }
 
         return valeur;
