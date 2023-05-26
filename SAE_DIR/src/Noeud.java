@@ -27,7 +27,7 @@ public class Noeud {
     }
 
     /**
-     * Méthode equals permettant de verifier si deux noeuds ont le meme noms
+     * Méthode equals permettant de verifier si deux noeuds ont le meme nom
      * @param n, nom du 2eme noeud à tester
      * @return retourne true si les noeuds sont égaux, false sinon
      */
@@ -45,13 +45,31 @@ public class Noeud {
         adj.add(new Arc(destination, cout));
     }
 
+
+    /**
+     * Méthode getAdj permettant de recuperer la liste adj
+     * @return liste adj
+     */
     public List<Arc> getAdj(){
         return this.adj;
     }
 
+
+    /**
+     * Méthode getNom permettant de recuperer le nom du noeud
+     * @return nom du noeud
+     */
     public String getNom(){
 
         return this.nom;
+    }
+
+    /**
+     * Méthode setAdj permettant de modifier la liste adj
+     * @param adj, nouvelle liste adj
+     */
+    public void setAdj(List<Arc> adj){
+        this.adj = adj;
     }
 
 }

@@ -164,13 +164,31 @@ public class Main {
 
 
         //Partie Labyrinthe :
-        try {
+        /*try {
 
             GrapheListe graphe = Labyrinthe.genererGraphe("labySimple/laby0.txt");
             System.out.println(BellmanFord.resoudre(graphe, "(1,1)").calculerChemin("(5,3)"));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
+        // test Question 32:
+        Labyrinthe labyrinthe = new Labyrinthe("labySimple/laby0.txt");
+        GrapheLabyrinthe graphe = new GrapheLabyrinthe(labyrinthe);
+        GrapheListe grapheListe = new GrapheListe();
+        // On ajoute les noms des noeuds
+        for(int i = 0; i < graphe.listeNoeuds().size(); i++){
+            grapheListe.setEnsNom(graphe.listeNoeuds().get(i));
+        }
+        // On ajoute les noeuds
+        for(int i = 0; i < graphe.listeNoeuds().size(); i++){
+            Noeud noeud = new Noeud(graphe.listeNoeuds().get(i));
+            noeud.setAdj(graphe.suivants(noeud.getNom()));
+            grapheListe.setEnsNoeuds(noeud);
+        }
+        // On affiche le graphe
+        System.out.println(grapheListe.toGraphviz());
+        // On affiche enfin le chemin le plus court pour parcourir le graphe
+        System.out.println(BellmanFord.resoudre(grapheListe, "(1,1)"));
     }
 }

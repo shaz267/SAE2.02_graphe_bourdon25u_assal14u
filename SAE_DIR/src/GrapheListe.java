@@ -30,7 +30,7 @@ public class GrapheListe implements Graphe {
 
     /**
      * Constructeur prenant un nom de fichier en paramètres et permettant de créer un graphe à partir d’un fichier
-     * @param fichier
+     * @param fichier, nom du fichier à lire
      */
     public GrapheListe(String fichier) {
         this.ensNom = new ArrayList<>();
@@ -58,6 +58,9 @@ public class GrapheListe implements Graphe {
 
     /**
      * Constructeur qui génére des graphes automatiquement d’une taille donnée (par exemple 1000 nœuds) en choisissant un départ et une arrivée. Les noms des nœuds seront des entiers.
+     * @param tailleGraphe, taille du graphe à creer
+     * @param depart, nom du noeud de depart
+     * @param arrivee, nom du noeud d'arrivee
      */
     public GrapheListe(int tailleGraphe ,String depart, String arrivee) {
         this.ensNom = new ArrayList<>();
@@ -208,7 +211,7 @@ public class GrapheListe implements Graphe {
 
 
     /**
-     * Méthode qui permet de tester cette classe
+     * Méthode accesseur de l'attribut ensNoeuds, représentant la liste des noeuds du graphe
      * @return l'attribut ensNoeuds
      */
     public List<Noeud> getEnsNoeuds(){
@@ -217,7 +220,8 @@ public class GrapheListe implements Graphe {
     }
 
     /**
-     * Méthode qui permet de rajouter un nom
+     * Méthode qui permet de rajouter un nom à la liste des noeuds
+     * @param nom, le nom à rajouter
      */
     public void setEnsNom(String nom){
 
@@ -226,6 +230,7 @@ public class GrapheListe implements Graphe {
 
     /**
      * Méthode qui permet de rajouter un noeud
+     * @param noeud, le noeud à rajouter
      */
     public void setEnsNoeuds(Noeud noeud){
 
@@ -235,7 +240,7 @@ public class GrapheListe implements Graphe {
 
     /**
      * Méthode qui permet de générer la liste des arcs à partir d'un fichier texte en mode matrice
-     * @param fichier
+     * @param fichier, le fichier matriciel
      */
     public static void genererListeArcs(String fichier) {
 
